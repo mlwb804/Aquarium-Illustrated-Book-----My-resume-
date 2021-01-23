@@ -1,32 +1,44 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <div class="header"><TheHeader></TheHeader></div>
+    <div class="main"><router-view/></div>
+    <div class="footer"><TheFooter></TheFooter></div>
   </div>
 </template>
 
+<script>
+import TheHeader from './components/layout/TheHeader'
+import TheFooter from './components/layout/TheFooter'
+export default {
+  components: {
+    TheHeader,
+    TheFooter
+  },
+  mounted() {
+    this.$store.dispatch('fetchArticles')
+  },
+}
+</script>
+
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Noto Serif TC', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .main{
+    flex: 1;
+    overflow: hidden;
+  }  
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+*{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
 }
 </style>
