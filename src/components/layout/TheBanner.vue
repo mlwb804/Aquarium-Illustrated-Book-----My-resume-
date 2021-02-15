@@ -23,10 +23,10 @@ export default {
     
     .banner{
         background-color: #eee;
-        height: 150px;
-        // margin-top: 7px;
+        // height: 120px;
+        margin-top: 120px;
         .txt{
-            padding-top: 1.7rem;
+            padding-top:1rem;
             h2{
                 font-size: 2.5rem;
             }

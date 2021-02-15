@@ -18,6 +18,7 @@ import UnifyCardSidebar from '../components/ui/UnifyCardSidebar.vue';
 export default {
     data() {
         return {
+            
         }
     },
     components:{

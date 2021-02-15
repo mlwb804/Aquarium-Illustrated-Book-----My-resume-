@@ -63,7 +63,7 @@ export default {
                 text-align: left;
                 color: #666666;
                 border-bottom: 1px solid #e8e8e8;
-                line-height: 1.5;
+                line-height: 1.3;
                 .tit{
                     width: 30%;
                     padding: 1rem 0 1rem 1rem;

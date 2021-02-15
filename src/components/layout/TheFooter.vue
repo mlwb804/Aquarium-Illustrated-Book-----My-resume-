@@ -1,6 +1,6 @@
 <template>
     <div class="footer">
-    <div class="container">
+    <div class="container-fulid">
         <div class="row no-gutters main">
             <div class="fir col-md-4">
                 <h2>
@@ -18,39 +18,22 @@
                 <h2>
                     觀賞水族圖鑑
                 </h2>
-                <div class="container-fluid wrap">
                     <div class="row no-gutters">
-                        <div class="item no-gutters">
-                            <div class="pic col-4">
-                                <img src="../../assets/footer/fish1.jpg" alt="">
+                        <div class="item no-gutters row">
+                            <div class="col-4 pic"
+                            v-for="(item, index) in items"
+                            :key="index"
+                            >
+                            <div class="dummy"></div>
+                            <div class="block">
+                                <div class="txt" @click.prevent="routerToArticle(item.id)">
+                                    <p>{{ item.title }}</p>
+                                    <img :src="item.src" :alt="item.title">
+                                </div>
                             </div>
-                            <div class="pic col-4">
-                                <img src="../../assets/footer/fish2.jpg" alt="">
-                            </div>
-                            <div class="pic col-4">
-                                <img src="../../assets/footer/fish3.jpg" alt="">
-                            </div>
-                            <div class="pic col-4">
-                                <img src="../../assets/footer/fish4.jpg" alt="">
-                            </div>
-                            <div class="pic col-4">
-                                <img src="../../assets/footer/fish5.jpg" alt="">
-                            </div>
-                            <div class="pic col-4">
-                                <img src="../../assets/footer/fish6.jpg" alt="">
-                            </div>
-                            <div class="pic col-4">
-                                <img src="../../assets/footer/fish7.jpg" alt="">
-                            </div>
-                            <div class="pic col-4">
-                                <img src="../../assets/footer/fish8.jpg" alt="">
-                            </div>
-                            <div class="pic col-4">
-                                <img src="../../assets/footer/fish9.jpg" alt="">
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
             <div class="thi col-md-4">
                 <h2>
@@ -71,111 +54,140 @@
     </div>
 </template>
 
+<script>
+export default {
+    data() {
+        return {
+            items:[
+                {src:require('../../assets/footer/fish1.jpg'),id:'小丑魚', title:'公子小丑'},
+                {src:require('../../assets/footer/fish2.jpg'),id:'皇后神仙', title:'皇后神仙'},
+                {src:require('../../assets/footer/fish3.jpg'),id:'蘇蝦', title:'白襪蝦'},
+                {src:require('../../assets/footer/fish4.jpg'),id:'螯蝦', title:'天空藍魔蝦'},
+                {src:require('../../assets/footer/fish5.jpg'),id:'七彩神仙', title:'七彩神仙'},
+                {src:require('../../assets/footer/fish6.jpg'),id:'青蛙', title:'青蛙'},
+                {src:require('../../assets/footer/fish7.jpg'),id:'女王神仙', title:'女王神仙'},
+                {src:require('../../assets/footer/fish8.jpg'),id:'魟魚', title:'珍珠魟'},
+                {src:require('../../assets/footer/fish9.jpg'),id:'異形', title:'熊貓異形'}
+            ]
+        }
+    },
+    methods:{
+        routerToArticle(id) {
+            this.$router.push({name:"Article", params: {id:id}})
+        }
+    }
+}
+</script>
 <style lang="scss" scoped>
 $color1:#bbb;
 $color2:#fff;
-@mixin mobile {
-    @media screen and (max-width:450px) {
-        @content
-    }
-};
-@mixin mobile-lg {
-    @media screen and (min-width:451px) and (max-width:767px) {
-        @content
-    }
-};
 @mixin pad {
-    @media screen and (min-width:768px) and (max-width:1024px) {
+    @media screen and (min-width:768px) {
         @content
     }
 };
-    .footer{
-        background-color: rgba(28, 29, 32, 0.829);
-        margin-top: 4rem;
-        padding-top: 3rem;
-        .fir,
-        .sec,
-        .thi{
+@mixin pc {
+    @media screen and (min-width:1200px) {
+        @content
+    }
+};
+.footer{
+    background-color: rgba(28, 29, 32, .829);
+    margin-top: 4rem;
+    padding-top: 3rem;
+    .fir, .sec, .thi{
+        padding: 0 1rem 2rem;
+        text-align: left;
+        @include pc {
             padding: 0 2rem 2rem;
-            text-align: left;
-            @include pad {
-                padding: 0 1rem 2rem;
+        }
+    }
+    .main{
+        padding-top: 1rem;
+        h2{
+            color:$color2;
+            margin-bottom: 2rem;
+        }
+        .fir{
+            .content{
+                color:$color1
+            }
+            span{
+                display: block;
+                background-color: $color1;
+                width: 100%;
+                height: 1px;
+                margin: 1rem 0;
+            }
+            .about{
+                color:$color2;
             }
         }
-        .main{
-            padding-top: 1rem;
-            h2{
-                color:$color2;
-                margin-bottom:2rem;
-            }
-            .fir{
-                .content{
-                    color:$color1;
+        .sec{
+            .item{
+                display: flex;
+                flex-wrap: wrap;
+                width: 100vw;
+                margin: 0 auto;
+                .dummy{
+                    margin-top: 100%;
                 }
-                span{
-                    display: block;
-                    background-color: $color1;
-                    width: 100%;
-                    height: 1px;
-                    margin: 1rem 0;
-                }
-                .about{
-                    color:$color2;
-                }
-            }
-            .sec{
-                .wrap{
-                    padding-left: 0;
-                    padding-right: 0;
-                    .row{
-                        .item{
-                            display: flex;
-                            flex-wrap: wrap;
-                            width: 25vw;
-                            margin: 0 auto;
-                            @include mobile {
-                                width: 100vw;
-                            }
-                            @include mobile-lg{
-                                width: 100vw;
-                            }
-                            .pic{
-                                height: 14vh;
-                                @include mobile-lg{
-                                    height: 20vh;
-                                }
-                                @include pad{
-                                    height: 9vh;
-                                }
-                                img{
-                                    width: 100%;
-                                    height: 100%;
-                                }
-                            }
+                .block{
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    overflow: hidden;
+                    .txt{
+                        display: inline;
+                        cursor: pointer;
+                        &:hover p{
+                            opacity: 1;
                         }
-                    }
-                }
-            }
-            .thi{
-                .contact{
-                    color:$color1;
-                    li{
-                        & + li{
-                            margin-top:1rem ;
+                        p{
+                            position: absolute;
+                            left: 0;
+                            bottom: 0;
+                            color:#fff;
+                            background-color: rgba(0, 0, 0, .5);
+                            width: 100%;
+                            height: 50px;
+                            line-height: 50px;
+                            text-align: center;
+                            opacity: 0;
+                            transition: opacity .4s;
+                            font-size: .8rem;
+                            
                         }
                         img{
-                            float: left;
-                            margin-top: 5px;
-                            margin-right: 5px;
-                        }
+                        width: 100%;
+                        height: 100%;
+                    }
                     }
                 }
             }
         }
-        .last{
-            background-color:#fff ;
-            padding: 1rem;
-            color: #999;
+        .thi{
+            .contact{
+                color:$color1;
+            }
+            li{
+                & + li{
+                    margin-top: 1rem;
+                }
+                img{
+                    float: left;
+                    margin-top: 5px;
+                    margin-right: 5px;
+                }
+            }
         }
     }
+    .last{
+        background-color: #fff;
+        padding: 1rem;
+        color:#999;
+    }
+}
 </style>

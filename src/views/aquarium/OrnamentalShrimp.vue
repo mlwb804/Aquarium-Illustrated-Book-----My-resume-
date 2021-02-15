@@ -27,7 +27,12 @@ export default {
         filterByShrimp(){
             return this.articles.filter( nam => nam.type === "shrimp")
         }
-    }
+    },
+    mounted() {
+        this.$router.afterEach((to, from, next) => {
+        window.scrollTo(0, 0)
+        })
+    },
 }
 </script>
 

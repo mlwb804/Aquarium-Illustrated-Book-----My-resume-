@@ -1,40 +1,77 @@
 <template>
-    <div class="header container-fluid">
-        <div class="hamburger"  @click="isswitch = !isswitch">
+    <div class="header container-fluid" :class="{shrink: shrink}">
+        <div class="hamburger" :class="{hamshrink: shrink}"  @click="tog" @close-menu="closeMenu">
             <div class="hamburger-line"></div>
         </div>
         <div class="logo">
             <h2><router-link class="logo1" to="/">觀賞水族資訊網</router-link></h2>
         </div>
-        <Menu :items="items" :class="{ open : isswitch }" @close="closeMenu"></Menu>
+        <Menu
+        :items="items"
+        :isswitch="isswitch"
+        :move="move"
+        @close="closeMenu"
+        :class="{menList: shrinkMenu}"
+        
+        ></Menu>
     </div>
 </template>
 
 <script>
-import Menu from '@/components/menu/Menu'
+import Menu from '@/components/ui/Menu.vue';
 export default {
     data() {
         return {
             items: [
-                {name: '首頁', tabLink: '/home'},
-                {name: '最新消息', tabLink: '/new'},
-                {name: '關於我們', tabLink: '/about'},
+                {name: '首頁', tabLink: 'Home', flag: false},
+                {name: '文章分享', tabLink: 'RearingShare', flag: false},
+                {name: '關於我們', tabLink: 'About', flag: false},
                 {name: '觀賞水族圖鑑',
-                tabLink: '/aquarium/aquariumHome',
+                tabLink: '',
+                flag: true,
                 subItems: [
-                    {name: '淡水觀賞魚', tabLink: '/aquarium/freshwaterFish'},
-                    {name: '海水觀賞魚', tabLink: '/aquarium/saltwaterFish'},
-                    {name: '觀賞蝦', tabLink: '/aquarium/ornamentalShrimp'}
+                    {name:'彙整:水族圖鑑', tabLink: 'Unify'},
+                    {name: '淡水觀賞魚', tabLink: 'FreshwaterFish'},
+                    {name: '海水觀賞魚', tabLink: 'SaltwaterFish'},
+                    {name: '觀賞蝦', tabLink: 'OrnamentalShrimp'}
                 ],
                 },
             ],
-            isswitch: false
+            isswitch: false,
+            shrink:false,
+            shrinkMenu:false,
+            move:false
         };
     },
     methods:{
         closeMenu(){
             this.isswitch = this.val;
+        },
+        tog(){
+            return this.isswitch = !this.isswitch;
+        },
+        menuShrink(){
+            let that = this;
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+            let screenWidth = document.body.clientWidth
+            that.scrollTop = scrollTop;
+            if(that.scrollTop > 80 && screenWidth < 870) {
+                let that = this;
+                that.shrink = true;
+                that.shrinkMenu = true;
+            }else if(that.scrollTop > 80 && screenWidth > 870){
+                let that = this;
+                that.shrink = true;
+                that.move = true;
+            }else{
+                that.shrink = false;
+                that.shrinkMenu = false;
+                that.move = false;
+            }
         }
+    },
+    mounted() {
+        window.addEventListener('scroll', this.menuShrink);
     },
     components:{
         Menu
@@ -58,18 +95,25 @@ export default {
         @content
     }
 };
+@mixin center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 
 .header{
     background-color: rgb(85, 172, 243);
     display: flex;
-    position: relative;
-    box-shadow: 0 7px 10px rgb(54, 160, 247);
-    height: 80px;
+    position: fixed;
+    height: 120px;
+    z-index: 10;
     @include pc{
         justify-content: space-around;
     }
     .logo{
         padding: 1rem;
+        @include center;
         @include moblie{
             margin-left: 8vw;
         }
@@ -94,7 +138,7 @@ export default {
         width: 50px;
         height: 50px;
         position: absolute;
-        top: 15px;
+        top: 35px;
         right: 50px;
         display: block;
         border-radius: 5px;
@@ -106,6 +150,7 @@ export default {
         }
         @include pc{
             display: none;
+            
         }
             .hamburger-line{
                 width: 40px;
@@ -120,11 +165,15 @@ export default {
                 box-shadow: 0 10px 0 #fff, 0 -10px 0 #fff;
             }
     }
-    // 導航欄開關
-    .open{
-        // transform: translateX(0%);
-        opacity: 1;
-        z-index: 20;
+    .hamshrink{
+    top:5.5px;
+    }
+    .menList{
+        margin-top: -50px;
     }
 }
+.shrink{
+    height: 61px;
+}
+
 </style>

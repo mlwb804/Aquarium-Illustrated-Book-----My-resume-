@@ -27,7 +27,12 @@ export default {
         filterByFresh(){
             return this.articles.filter( nam => nam.type === "fresh")
         }
-    }
+    },
+    mounted() {
+        this.$router.afterEach((to, from, next) => {
+        window.scrollTo(0, 0)
+        })
+    },
 }
 </script>
 

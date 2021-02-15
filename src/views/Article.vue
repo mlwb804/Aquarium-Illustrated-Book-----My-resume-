@@ -1,15 +1,20 @@
 <template>
     <div>
-        <TheBanner title="七彩神仙"></TheBanner>
+        <TheBanner :title="filterById.title"></TheBanner>
         <article v-if="articles.length" class="container">
             <div class="row no-gutters item">
                 <div class="col-md-7 pic">
                     <div class="picture">
-                            <img :src="filterById.img1" :alt="filterById.title">
-                            <img :src="filterById.img2" alt="">
-                            <img :src="filterById.img3" alt="">
-                            <img :src="filterById.img4" alt="">
-                            <img :src="filterById.img5" alt="">
+                        <swiper class="swiper" :options="swiperOption">
+                            <swiper-slide><img :src="filterById.img1" :alt="filterById.id"></swiper-slide>
+                            <swiper-slide><img :src="filterById.img2" alt="filterById.id"></swiper-slide>
+                            <swiper-slide><img :src="filterById.img3" alt="filterById.id"></swiper-slide>
+                            <swiper-slide><img :src="filterById.img4" alt="filterById.id"></swiper-slide>
+                            <swiper-slide><img :src="filterById.img5" alt="filterById.id"></swiper-slide>
+                            <div class="swiper-pagination" slot="pagination"></div>
+                        </swiper>
+                        <div class="swiper-button-prev" slot="button-prev"></div>
+                        <div class="swiper-button-next" slot="button-next"></div>
                     </div>
                 </div>
                 <div class="col-md-5 txt">
@@ -29,16 +34,34 @@
 
 <script>
 import ArticleTable from '../components/ui/ArticleTable.vue';
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
+  import 'swiper/dist/css/swiper.css';
 export default {
     data() {
         return {
             artId: null,
+            swiperOption: {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true
+                },
+                navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+                }
+            }
         }
     },
     mounted() {
-        const id = this.$route.params.id
-        this.artId = id
+        const id = this.$route.params.id;
+        this.artId = id;
+        this.$router.afterEach((to, from, next) => {
+            window.scrollTo(0, 0)
+        })
     },
     computed:{
         filterById() {
@@ -47,8 +70,20 @@ export default {
         ...mapState(['articles'])
     },
     components:{
-        ArticleTable
+        ArticleTable,
+        swiper,
+        swiperSlide
+    },
+    beforeRouteEnter (to, from, next) {
+        const bread = to.meta.breadcrumb;
+        for(let i = 0; i < bread.length; i++){
+            if(bread[i].nam === ''){
+                bread[i].name = to.params.id
+            }
+        }
+        next();
     }
+
 }
 </script>
 
@@ -56,13 +91,48 @@ export default {
 .item{
     .pic{
         .picture{
-            width: 50px;
-            height: 50px;
+            width: 80%;
+            height: 350px;
             display: flex;
+            margin: 1rem auto;
+            position: relative;
+                .swiper-button-prev{
+                    // position: absolute;
+                    left:0px;
+                    background-image: url('../assets/icon/picleft.png');
+                    background-size: contain;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+                .swiper-button-next{
+                    // position: absolute;
+                    right: 0px;
+                    background-image: url('../assets/icon/picright.png');
+                    background-size: contain;
+                    &:focus{
+                        outline: none;
+                    }
+                }
                 img{
                     width: 100%;
                     height: 100%;
+                    border-radius: 10px;
                 }
+        }
+        .sub-pic{
+            width: 100%;
+            margin: 0 auto;
+            .sub-picture{
+                display: flex;
+                height: 100px;
+                // justify-content: center;
+            }
+                img{
+                    width: 20%;
+                    height: 80%;
+                }
+
         }
     }
     .txt{
@@ -96,11 +166,24 @@ export default {
             }
             p{
                 padding: 2rem 1.5rem;
-                line-height: 2;
+                line-height: 1.5;
                 color:#666666;
             }
         }
     }
 }
 
+@media screen and (min-width:767px) {
+    .item{
+        .pic{
+            .picture{
+                margin-top: 10rem;
+            }
+            .sub-pic{
+                width: 80%;
+                height: 100%;
+            }
+        }
+    }
+}
 </style>

@@ -6,7 +6,7 @@
             :key="index"
             class="col-12 col-md-6 col-lg-4 col-2_5"
             >
-            <div class="row">
+            <div class="row no-gutters">
                 <div class="dummy"></div>
                 <div class="block" @click="routerToArticle(art.id)">
                     <img :src="art.img1" alt="">
@@ -33,19 +33,12 @@ export default {
     methods:{
         routerToArticle(id) {
             this.$router.push({name:"Article", params: {id:id}})
-
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-@media (min-width:1140px) {
-    .col-2_5 {
-    flex: 0 0 20%;
-    max-width: 20%;
-}
-}
     .container{
         .pic{
             margin-top: 2rem;
@@ -62,6 +55,7 @@ export default {
                 bottom: 4px;
                 position: absolute;
                 overflow: hidden;
+                cursor: pointer;
                 &:hover img{
                     transform: scale(1.2,1.2);
                     transition:  all .5s ease-out;
@@ -85,7 +79,18 @@ export default {
                 bottom: 15%;
                 left: 0;
                 right: 0;
+                cursor: pointer;
+
             }
         }
     }
+
+@media (min-width:1140px) {
+    .container{
+        .col-2_5 {
+            flex: 0 0 20%;
+            max-width: 20%;
+        }
+    }
+}
 </style>

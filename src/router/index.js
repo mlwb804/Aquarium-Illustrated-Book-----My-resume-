@@ -1,15 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
-import New from '../views/New.vue';
-import About from '../views/About.vue';
-import Aquarium from '../views/Aquarium.vue';
-import AquariumHome from '../views/aquarium/AquariumHome.vue';
-import FreshwaterFish from '../views/aquarium/FreshwaterFish.vue';
-import OrnamentalShrimp from '../views/aquarium/OrnamentalShrimp.vue';
-import SaltwaterFish from '../views/aquarium/SaltwaterFish.vue';
-import Unify from '../views/Unify.vue';
-import Article from '../views/Article.vue';
+import NotFound from '../views/404NotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -31,7 +23,7 @@ const routes = [
   {
     path:'/about',
     name: 'About',
-    component: About,
+    component: () => import('../views/About.vue'),
     meta: {
       breadcrumb: [{
         name: '首頁',
@@ -43,29 +35,29 @@ const routes = [
     }
   },
   {
-    path:'/new',
-    name: 'New',
-    component: New,
+    path:'/rearingShare',
+    name: 'RearingShare',
+    component: () => import('../views/RearingShare.vue'),
     meta: {
       breadcrumb: [{
         name: '首頁',
         link: 'home'
       },
       {
-        name:'最新消息'
+        name:'文章分享'
       }]
     }
   },
   {
     path: '/aquarium',
     name: 'Aquarium',
-    component: Aquarium,
-    redirect: {name: 'AquariumHome'},
+    component: () => import('../views/Aquarium.vue'),
+    redirect: {name: 'Unify'},
     children: [
       {
-        path:'aquariumHome',
-        name:'AquariumHome',
-        component: AquariumHome,
+        path:'unify',
+        name:'Unify',
+        component: () => import('../views/Unify.vue'),
         meta:{
           breadcrumb: [{
             name: '首頁',
@@ -75,12 +67,11 @@ const routes = [
             name: '觀賞水族圖鑑'
           }]
         }
-
       },
       {
         path:'freshwaterFish',
         name: 'FreshwaterFish',
-        component: FreshwaterFish,
+        component: () => import('../views/aquarium/FreshwaterFish.vue'),
         meta:{
           breadcrumb: [{
             name: '首頁',
@@ -88,7 +79,7 @@ const routes = [
           },
           {
             name: '觀賞水族圖鑑',
-            link: 'aquariumHome'
+            link: 'unify'
           },
           {
             name: '淡水魚'
@@ -98,7 +89,7 @@ const routes = [
       {
         path:'ornamentalShrimp',
         name: 'OrnamentalShrimp',
-        component: OrnamentalShrimp,
+        component: () => import('../views/aquarium/OrnamentalShrimp.vue'),
         meta:{
           breadcrumb: [{
             name: '首頁',
@@ -106,7 +97,7 @@ const routes = [
           },
           {
             name: '觀賞水族圖鑑',
-            link: 'aquariumHome'
+            link: 'unify'
           },
           {
             name: '觀賞蝦'
@@ -116,7 +107,7 @@ const routes = [
       {
         path:'saltwaterFish',
         name: 'SaltwaterFish',
-        component: SaltwaterFish,
+        component: () => import('../views/aquarium/SaltwaterFish.vue'),
         meta:{
           breadcrumb: [{
             name: '首頁',
@@ -124,7 +115,7 @@ const routes = [
           },
           {
             name: '觀賞水族圖鑑',
-            link: 'aquariumHome'
+            link: 'unify'
           },
           {
             name: '海水魚'
@@ -134,36 +125,49 @@ const routes = [
     ]
   },
   {
-    path: '/unify',
-    name: 'Unify',
-    component: Unify,
-    meta: {
-      breadcrumb: [{
-        name: '首頁',
-        link: 'home'
-      },
-      {
-        name: '水族圖鑑'
-      }]
-    },
-  },
-  {
         path: '/unify/article/:id',
         name: 'Article',
-        component: Article,
+        component: () => import('../views/Article.vue'),
         meta:{
           breadcrumb:[{
             name: '首頁',
             link: '/'
           },
           {
-            name: '水族圖鑑',
-            link: '/unify'
+            name: '觀賞水族圖鑑',
+            link: '/aquarium/unify'
           },
           {
-            name: '七彩神仙'
-          }]
+            name:'',
+            nam:''
+          }
+        ]
         }
+      },
+  {
+        path: '/RearingShare/RearingArticles/:id',
+        name: 'RearingArticles',
+        component: () => import('../views/RearingArticles.vue'),
+        meta:{
+          breadcrumb:[{
+            name: '首頁',
+            link: '/'
+          },
+          {
+            name: '觀賞水族圖鑑',
+            link: '/rearingShare'
+          },
+          {
+            name:'',
+            nam:''
+          }
+        ]
+        }
+      },
+      {
+        path:'*',
+        name: '404NotFound',
+        component: NotFound
       }
 
   // {
@@ -179,7 +183,16 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior(to,from,savedPosition) {
+  if (savedPosition) {
+    console.log(to, from);
+    return savedPosition;
+  }
+  return { left:0, top:0};
+}
 })
+
+
 
 export default router

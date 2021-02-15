@@ -28,7 +28,12 @@ export default {
         filterBySalt(){
             return this.articles.filter( nam => nam.type === "salt")
         }
-    }
+    },
+    mounted() {
+        this.$router.afterEach((to, from, next) => {
+        window.scrollTo(0, 0)
+        })
+    },
 }
 </script>
 

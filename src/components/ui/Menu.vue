@@ -1,46 +1,42 @@
 <template>
     <ul class="menu" v-show="showMenu">
-        <MenuItem
+        <li
         v-for="(item, index) in items"
-        :key="item.index"
-        :to="item.tabLink"
-        :class="activeClass == index ? 'active' : '' "
+        :key="index"
         class="list"
-        @click.native="getItem(index);setCenter(index)"
-        @mouseover.native="setHover(index)"
-        @mouseleave.native="outHover()"
+        @click.prevent="getItem(index);setCenter(index);routerToHeader(item)"
+        @mouseover="setHover(index)"
+        @mouseleave="outHover()"
         >
-        <a class="txt">
+        <a class="txt"
+        :style="{'color': (activeClass == index ? '#ddd' : '' )}">
             {{ item.name }}
         </a>
-        <ul class="submenu"
-        :class="[{subtoggle:selectIndex === index},{hov:hover === index}]"
+        <ul
+        class="submenu"
         v-if="item.flag"
+        :class=" [{subtoggle:selectIndex === index},{hov:hover === index}] "
+        :style="{'top': (move == true ? '35px' : '' )}"
         >
-            <MenuItem
+            <li
             v-for="(sub, index) in item.subItems"
-            :key="sub.index"
-            :to="sub.tabLink"
-            @click.native="getItem(index)"
+            :key="index"
             class="sub-list"
-
+            @click.prevent="routerToHeader(sub)"
             >
-            <a>
-                {{ sub.name }}
-            </a>
-            </MenuItem>
+                <a>
+                    {{ sub.name }}
+                </a>
+            </li>
         </ul>
-        </MenuItem>
+        </li>
     </ul>
 
 </template>
 
 <script>
 export default {
-    props: ['items', 'isswitch'],
-    components:{
-        MenuItem
-    },
+    props: ['items', 'isswitch', 'move'],
     data() {
         return {
             activeClass: -1,
@@ -48,7 +44,6 @@ export default {
             hover: null,
             sub: false,
             toggleMenu:false,
-            bbb:false
         }
     },
     methods: {
@@ -62,15 +57,19 @@ export default {
             } else{
                 return this.selectIndex = null;
             };
-            
+        },
+        routerToHeader(num){
+            if(num.tabLink !== ''){
+                this.$router.push({name: num.tabLink});
+                this.$emit('close', this.isswitch);
+            }
         },
         setHover(index) {
             this.hover = index;
         },
         outHover(){
-            this.hover = null;
-            this.selectIndex = null;
-        }
+            this.hover = null
+        },
     },
     computed:{
         showMenu(){
@@ -80,7 +79,8 @@ export default {
                 return this.toggleMenu = this.isswitch;
             }
         },
-    }
+    },
+
 }
 </script>
 
@@ -93,10 +93,9 @@ export default {
         top: 110px;
         left: 0;
         z-index: 100;
-        transition: .3s linear;
-        transition-property: opacity;
         margin-left: 0;
         .list{
+            cursor: pointer;
             .txt{
                 display: block;
                 padding:10px;
@@ -110,10 +109,10 @@ export default {
             }
             .submenu{
                 padding: .5rem;
-                // background-color: rgb(85, 172, 243);
-                background-color: #000;
-                display: block;
-                border: 1px solid red;
+                background-color: rgb(85, 172, 243);
+                position: absolute;
+                display: none;
+                width: 100%;
                 .sub-list{
                     background-color: #fff;
                     text-align: left;
@@ -127,26 +126,17 @@ export default {
             }
             }
             .subtoggle{
-                // display: block;
-                // z-index: 23;
-            }
+                display: block;
+                z-index: 103;
         }
-        .router-link-active{
-            a{
-                color:#ddd;
-            }
         }
-    }
-    .sec-menu{
-        transition: all .3s;
-        opacity: 1;
-        // height: 350px;
     }
     @media screen and (min-width: 869px) {
         .menu{
-            position: static;
+            position: relative;
             height: auto;
             width: auto;
+            top: 0;
             opacity: 1;
             z-index: 1;
             display: flex;
@@ -178,21 +168,26 @@ export default {
                         opacity: 0;
                     }
                 }
-                &:last-child .submenu{
-                //     background-color: #fff;
-                    // margin-top: 2rem;
-                    // position: absolute;
-                }
                 .hov{
                     display: block;
                     z-index: 3;
-                    transition: opacity .3s;
                 }
                 .submenu{
-                    // height: 100px;
-                    padding: 0px;
+                    right: 110px;
+                    background-color: #fff;
+                    width: 150px;
+                    top: 50px;
+                    right: 5px;
+                    padding: 0;
+                    border-radius: 15px;
                     .sub-list{
-                        // display: none;
+                        border-radius: 15px;
+                        &:hover {
+                            background-color: rgb(42, 217, 240);
+                            a{
+                                color:#fff;
+                            }
+                        }
                     }
                 }
             }

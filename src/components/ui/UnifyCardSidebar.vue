@@ -2,8 +2,8 @@
     <div class="nav">
         <nav>
         <div class="search_box">
-            <i class="icon-search"></i>
-            <input type="text" id="search" placeholder="search...">
+            <i class="icon-search" @click.prevent="submitSearchKey"></i>
+            <input type="text" id="search" placeholder="search..." v-model="searchKey" @keyup.enter="submitSearchKey">
         </div>
         <ul
         @click="freshToggle = !freshToggle"
@@ -67,13 +67,15 @@
 
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex';
+
 export default {
     data() {
         return {
             freshToggle: false,
             saltToggle: false,
             shrimpToggle: false,
+            searchKey:""
         }
     },
     computed:{
@@ -90,9 +92,21 @@ export default {
     },
     methods: {
         routerToArticle(id) {
-            this.$router.push({name:"Article", params: {id:id}})
+            this.$router.push({name:"Article", params: {id:id}});
+        },
+        ...mapActions(['changeSearchKey']),
+
+        submitSearchKey() {
+            this.changeSearchKey(this.searchKey);
         }
     },
+    watch:{
+        searchKey() {
+            if(this.searchKey === "") {
+                this.submitSearchKey();
+            }
+        }
+    }
 
 
 

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div
-        v-for="(art, index) in articles"
+        v-for="(art, index) in filterBySearchKey"
         :key="index"
         class="row item"
         >
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
     filters:{
         subContent: (content) => {
@@ -34,7 +34,8 @@ export default {
         }
     },
     computed:{
-        ...mapState(['articles'])
+        ...mapState(['articles']),
+        ...mapGetters(['filterBySearchKey']),
     }
 }
 </script>
@@ -63,7 +64,6 @@ export default {
             }
             .txt{
                 margin: 2rem 0 0;
-                
                 h3{
                     font-size: 2rem;
                     margin-bottom: 1.5rem;
@@ -75,6 +75,7 @@ export default {
                     line-height: 1.8rem;
                     text-align: left;
                     color:rgb(134, 134, 134);
+                    padding-left: 1rem;
                 }
             }
         }
@@ -91,11 +92,15 @@ export default {
         .txt{
             margin: 0 auto;
             text-align: left;
+            padding-left: 1rem;
             h3{
                 margin-bottom: 1rem;
+                &:hover{
+                    color:rgb(16, 100, 196);
+                }
             }
             p{
-                font-size: .8rem;
+                font-size: .9rem;
             }
         }
         }
