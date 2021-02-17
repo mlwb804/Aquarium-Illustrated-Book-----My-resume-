@@ -20,6 +20,7 @@
 <script>
 import Menu from '@/components/ui/Menu.vue';
 export default {
+    props:['shrinkMenu', 'shrink', 'move'],
     data() {
         return {
             items: [
@@ -38,9 +39,9 @@ export default {
                 },
             ],
             isswitch: false,
-            shrink:false,
-            shrinkMenu:false,
-            move:false
+            // shrink:false,
+            // shrinkMenu:false,
+            // move:false
         };
     },
     methods:{
@@ -50,28 +51,6 @@ export default {
         tog(){
             return this.isswitch = !this.isswitch;
         },
-        menuShrink(){
-            let that = this;
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-            let screenWidth = document.body.clientWidth
-            that.scrollTop = scrollTop;
-            if(that.scrollTop > 80 && screenWidth < 870) {
-                let that = this;
-                that.shrink = true;
-                that.shrinkMenu = true;
-            }else if(that.scrollTop > 80 && screenWidth > 870){
-                let that = this;
-                that.shrink = true;
-                that.move = true;
-            }else{
-                that.shrink = false;
-                that.shrinkMenu = false;
-                that.move = false;
-            }
-        }
-    },
-    mounted() {
-        window.addEventListener('scroll', this.menuShrink);
     },
     components:{
         Menu

@@ -1,9 +1,13 @@
 <template>
   <div id="app">
-    <div class="header"><TheHeader></TheHeader></div>
-    <div class="main"><router-view/></div>
+    <div class="header"><TheHeader :shrink="shrink" :move="move" :shrinkMenu="shrinkMenu"></TheHeader></div>
+    <div class="main">
+      <transition name="route" mode="out-in">
+      <router-view></router-view>
+      </transition>
+    </div>
     <div class="footer"><TheFooter></TheFooter></div>
-    <div class="box" @click="backTop" v-show="backFlag">
+    <div class="box" @click="backTop" v-show="showBtn">
       <a><i class="icon"></i></a>
     </div>
   </div>
@@ -19,24 +23,45 @@ export default {
   },
   data() {
     return {
-      backFlag: false
+      showBtn: false,
+      shrink:false,
+      shrinkMenu:false,
+      move:false,
+    }
+  },
+  provide(){
+    return{
+      shrinkMenu:this.shrinkMenu,
+      shrink:this.shrink,
+      move:this.move
     }
   },
   mounted() {
     this.$store.dispatch('fetchArticles'),
     this.$store.dispatch('fetchRearing'),
-    window.addEventListener('scroll', this.showBtn)
+    window.addEventListener('scroll', this.headerShrink)
   },
   methods: {
-    showBtn() {
+    headerShrink(){
       let that = this;
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      let screenWidth = document.body.clientWidth
       that.scrollTop = scrollTop;
-      if(that.scrollTop > 80) {
-        let that = this;
-        that.backFlag = true;
+      if(that.scrollTop > 80 && screenWidth < 870) {
+          let that = this;
+          that.shrink = true;
+          that.shrinkMenu = true;
+          that.showBtn = true
+      }else if(that.scrollTop > 80 && screenWidth > 870){
+          let that = this;
+          that.shrink = true;
+          that.move = true;
+          that.showBtn = true;
       }else{
-        that.backFlag =false;
+          that.shrink = false;
+          that.shrinkMenu = false;
+          that.move = false;
+          that.showBtn = false;
       }
     },
     backTop() {
@@ -53,7 +78,7 @@ export default {
     }
   },
   destroyed() {
-    window.removeEventListener('scroll', this.showBtn);
+    window.removeEventListener('scroll', this.headerShrink);
   },
 }
 </script>
@@ -111,4 +136,27 @@ export default {
   }
   }
 }
+
+.route-enter{
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.route-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.route-enter-active{
+  transition: all .5s ease-out;
+} 
+.route-leave-active{
+  transition: all .5s ease-in;
+} 
+// .sub-enter{
+//   opacity: 0;
+//   transform: translateY(-30px);
+// }
+// .sub-enter-active{
+//   transition: all 1s ease-out;
+// }
+// 
 </style>

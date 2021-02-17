@@ -1,6 +1,6 @@
 <template>
     <div class="banner">
-        <div class="txt">
+        <div class="txt" :style="{'paddingTop': (shrink == true ? '55px' : '1rem')}">
             <h2>
                 {{ title }}
             </h2>
@@ -12,9 +12,33 @@
 import BreadCrumb from '../ui/BreadCrumb';
 export default {
     props:['title'],
+    data() {
+        return {
+            shrink:false
+        }
+    },
     components:{
         BreadCrumb
-    }
+    },
+    methods: {
+        headerShrink() {
+            let that = this;
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+            that.scrollTop = scrollTop;
+            if(that.scrollTop > 80) {
+                let that = this;
+                that.shrink = true;
+            }else{
+                that.shrink =false;
+            }
+        },
+    },
+    mounted() {
+        window.addEventListener('scroll', this.headerShrink);
+    },
+    destroyed() {
+        window.removeEventListener('scroll', this.headerShrink);
+    },
 }
 
 </script>
@@ -26,7 +50,6 @@ export default {
         // height: 120px;
         margin-top: 120px;
         .txt{
-            padding-top:1rem;
             h2{
                 font-size: 2.5rem;
             }

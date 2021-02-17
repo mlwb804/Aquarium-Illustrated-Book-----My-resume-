@@ -129,7 +129,7 @@ $main-color:#fff;
     }
 };
 @mixin pad-lg {
-    @media screen and (min-width:1023px) {
+    @media screen and (min-width:1000px) {
         @content
     }
 }
@@ -155,11 +155,14 @@ $main-color:#fff;
         right: 0;
         bottom: 0;
         z-index: -99;
-        @include pad {
-            height: 62%;
+        @include mobile-lg{
+            height: 36%;
         }
-        @include pad-lg {
-            height: 53%;
+        @include pad {
+            height: 60%;
+        }
+        @include pad-lg{
+            height: 50%;
         }
     }
     .over-lay{
@@ -171,11 +174,14 @@ $main-color:#fff;
         bottom: 0;
         background-color: rgba(53,47,35,0.4);
         z-index: -98;
-        @include pad {
-            height: 62%;
+        @include mobile-lg{
+            height: 36%;
         }
-        @include pad-lg {
-            height: 53%;
+        @include pad {
+            height: 60%;
+        }
+        @include pad-lg{
+            height: 50%;
         }
     }
     // 標題文字
