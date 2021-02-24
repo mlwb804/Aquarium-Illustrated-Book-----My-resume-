@@ -35,17 +35,18 @@ export default {
     .wrap{
         padding:1rem 0;
         z-index: 999;
-        font-size: .5rem;
+        font-size: 1rem;
         margin-left: 1.5rem;
-        border-radius: 10px;
+        border-radius: 15px;
         width: 80%;
-        border: 1px solid rgba(0, 0, 0, .6);
+        background-color:#ddd ;
+        height: 300px;
         .item{
             margin:1rem auto;
             position: relative;
             text-align: left;
             padding-left: .65rem;
-
+            cursor: pointer;
             &::after{
                 content:'';
                 display: block;
@@ -56,6 +57,10 @@ export default {
                 height: 1px;
                 width: 70%;
                 background-color: rgba(138, 138, 138, .6);
+            }
+            &:hover{
+                color:rgb(16, 215, 230);
+                transition: all .3s;
             }
         }
     }

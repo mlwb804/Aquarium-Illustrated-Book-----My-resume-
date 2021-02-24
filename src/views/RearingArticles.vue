@@ -1,25 +1,24 @@
 <template>
     <div>
         <TheBanner :title="filterById.title"></TheBanner>
-        <!-- <article v-if="rearing.length">
+        <article v-if="rearing.length">
             <div class="row">
                 <div class="content">
                     {{filterById.content}}
                 </div>
             </div>
-        </article> -->
-        <editor-content :editor="editor" />
+        </article>
+
     </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { Editor, EditorContent } from 'tiptap'
 export default {
     data() {
         return {
             artId: null,
-            editor: null
+
         }
     },
     mounted() {
@@ -28,12 +27,6 @@ export default {
         this.$router.afterEach((to, from, next) => {
             window.scrollTo(0, 0)
         })
-        this.editor = new Editor({
-            content: '<p>1234</p>',
-        })
-    },
-    beforeDestroy() {
-        this.editor.destroy()
     },
     computed:{
         filterById() {
@@ -49,9 +42,6 @@ export default {
             }
         }
         next();
-    },
-    components:{
-        EditorContent
     }
 }
 </script>

@@ -2,7 +2,7 @@
     <div class="footer">
     <div class="container-fulid">
         <div class="row no-gutters main">
-            <div class="fir col-md-4">
+            <div class="fir col-sm-4">
                 <h2>
                     About us
                 </h2>
@@ -14,7 +14,7 @@
                 <span></span>
                 <p class="about">網站瀏覽簡介</p>
             </div>
-            <div class="sec col-md-4">
+            <div class="sec col-sm-4">
                 <h2>
                     觀賞水族圖鑑
                 </h2>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
             </div>
-            <div class="thi col-md-4">
+            <div class="thi col-sm-4">
                 <h2>
                     Contacts
                 </h2>
@@ -45,6 +45,8 @@
                     <li><img src="../../assets/icon/cellphone.png" alt="">(09)1234-5678</li>
                     <li><img src="../../assets/icon/email.png" alt="">pabp.ecoa@gmail.com</li>
                 </ul>
+                <div id="map" class="google-map"></div>
+                <!-- <button class="route" @click.prevent="routerToAdd">Add</button> -->
             </div>
         </div>
     </div>
@@ -53,6 +55,7 @@
     </div>
     </div>
 </template>
+
 
 <script>
 export default {
@@ -68,14 +71,40 @@ export default {
                 {src:require('../../assets/footer/fish7.jpg'),id:'女王神仙', title:'女王神仙'},
                 {src:require('../../assets/footer/fish8.jpg'),id:'魟魚', title:'珍珠魟'},
                 {src:require('../../assets/footer/fish9.jpg'),id:'異形', title:'熊貓異形'}
-            ]
+            ],
+            map:null,
+            lat:22.7154403157038,
+            lng:120.53175766496366
         }
     },
     methods:{
         routerToArticle(id) {
             this.$router.push({name:"Article", params: {id:id}})
+        },
+        routerToAdd(){
+            this.$router.push({name:'AdminHome'});
+        },
+        initMap(){
+            this.map = new google.maps.Map(document.getElementById("map"), {
+                center:{ lat: this.lat, lng: this.lng },
+                zoom:15,
+                maxZoom:20,
+                minZoon:3,
+                streetViewControl:false,
+                mapTypeControl:false
+            });
+        },
+        setMarket(){
+            const market = new google.maps.Marker({
+                position:{ lat: this.lat, lng: this.ing },
+                map: this.map
+            });
         }
-    }
+    },
+    mounted() {
+        this.initMap();
+        this.setMarket();
+    },
 }
 </script>
 <style lang="scss" scoped>
@@ -124,6 +153,10 @@ $color2:#fff;
             }
         }
         .sec{
+            @include pc{
+                padding-right: 5rem;
+                padding-left: 5rem;
+            }
             .item{
                 display: flex;
                 flex-wrap: wrap;
@@ -181,6 +214,11 @@ $color2:#fff;
                     margin-top: 5px;
                     margin-right: 5px;
                 }
+            }
+            .google-map{
+                margin: 1rem 0;
+                width: 100%;
+                height: 250px;
             }
         }
     }

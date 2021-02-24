@@ -162,7 +162,7 @@ $main-color:#fff;
             height: 60%;
         }
         @include pad-lg{
-            height: 50%;
+            height: 54%;
         }
     }
     .over-lay{
@@ -181,7 +181,7 @@ $main-color:#fff;
             height: 60%;
         }
         @include pad-lg{
-            height: 50%;
+            height: 54%;
         }
     }
     // 標題文字

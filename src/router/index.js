@@ -165,6 +165,21 @@ const routes = [
         }
       },
       {
+        path:'/adminHome',
+        name:'AdminHome',
+        component: () => import('../views/AdminHome.vue'),
+        meta:{
+          breadcrumb:[{
+            name:'首頁',
+            link: '/'
+          },
+          {
+            name:'新增文章'
+          }
+        ]
+        }
+      },
+      {
         path:'*',
         name: '404NotFound',
         component: NotFound

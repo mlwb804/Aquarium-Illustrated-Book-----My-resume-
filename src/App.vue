@@ -146,10 +146,10 @@ export default {
   transform: translateX(30px);
 }
 .route-enter-active{
-  transition: all .5s ease-out;
+  transition: all .4s ease-out;
 } 
 .route-leave-active{
-  transition: all .5s ease-in;
+  transition: all .4s ease-in;
 } 
 // .sub-enter{
 //   opacity: 0;
